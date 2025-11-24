@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.layout-content {
+  flex: 1;
+  padding: 20px;
+  background: #fafafa;
+  overflow-y: auto;
+}

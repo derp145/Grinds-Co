@@ -1,0 +1,459 @@
+/* ========================================
+   CONTAINER
+======================================== */
+.container {
+  display: flex;
+   min-height: 88vh; 
+  width: 100%;
+  background: #f9fafb;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ========================================
+   LEFT SECTION (Branding)
+======================================== */
+.left-section {
+  position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 40%;
+  padding-top: 2rem; /* reduced */
+  min-width: 350px; /* slightly smaller */
+  background-color: #fcf8ef;
+  background-image: url('../assets/BGcoffeebeans.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.top-bars {
+  position: center;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.top-bars span {
+  height: 5px;
+  width: 110px;
+  background: #b68255;
+  border-radius: 8px;
+}
+
+
+.logo-images {
+  width: 150px;
+  margin-bottom: 0.3rem;
+}
+
+.headline {
+  margin: 0.3rem 0;
+}
+
+.subtext {
+  margin: 0.3rem auto 0.8rem;
+}
+
+.coffee-images img {
+  max-width: 420px; /* smaller */
+}
+
+/* ========================================
+   RIGHT SECTION (Authentication)
+======================================== */
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: center ;
+  padding: 1.5rem 2rem; /* MUCH smaller */
+  gap: 0.2rem;
+}
+
+/* BACK BUTTON (ALL PAGES) */
+.back-btn {
+  position: absolute;
+  top: 1.5rem; /* lowered from 2rem */
+  right: 2rem; /* keep at top-right */
+  background: white;
+  border: 2px solid #b68255;
+  color: #b68255;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #b68255;
+  color: white;
+}
+
+
+/* WELCOME TITLE */
+.welcome {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  color: #000;
+ margin-bottom: 0.1rem;
+  text-align: center;
+}
+
+.desc {
+  font-size: 15px;
+  color: #5a5a5a;
+   margin-bottom: 0.7rem;
+  text-align: center;
+}
+
+/* =============================
+   GOOGLE BUTTON
+============================= */
+.google-btn {
+  width: 70%;
+  margin: 0.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.google-btn:hover {
+  background: #f6f1e6;
+}
+
+.google-icon {
+  width: 20px;
+}
+
+/* =============================
+   DIVIDER
+============================= */
+.divider {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  width: 30%;
+  height: 1px;
+  background: #d7d7d7;
+  position: absolute;
+  top: 50%;
+}
+
+.divider::before {
+  left: 0;
+}
+.divider::after {
+  right: 0;
+}
+
+/* LABELS */
+label {
+  width: 60%;       /* match inputs */
+  margin: 0.3rem auto 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #2f2f2f;
+  display: block;
+}
+
+
+/* =============================
+   SELECT USER INPUTS
+============================= */
+/* =============================
+   SELECT USER INPUTS (UPDATED TO MATCH PASSWORD FIELD)
+============================= */
+input,
+select,
+textarea {
+  width: 60%;         /* match password field */
+  margin: 0.4rem auto;
+  display: block;
+  padding: 12px 14px; /* same padding */
+  border: 1.5px solid #b68255;
+  border-radius: 8px; /* match password radius */
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #935d30;
+  box-shadow: 0 0 0 2px rgba(182, 130, 85, 0.25);
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+/* =============================
+   OPTIONS ROW
+============================= */
+.options {
+  width: 70%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.remember input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+  accent-color: #b68255;
+}
+
+.forgot {
+  background: none;
+  border: none;
+  color: #1f2bd7;
+  font-size: 14px;
+  cursor: pointer;  
+  text-decoration: underline;
+  padding: 0;
+  margin: 0;
+}
+
+.forgot:hover {
+  color: #1db2e0;
+  text-decoration: underline; 
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 1rem 0;
+}
+
+.code-inputs input {
+  width: 28px;
+  height: 38px;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #b68255;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.code-inputs input:focus {
+  border-color: #935d30;
+  box-shadow: 0 0 0 2px rgba(182, 130, 85, 0.25);
+}
+
+.resend-btn {
+  width: 30%;
+  margin: 0 auto;
+  padding: 0.9rem;
+  background: #ffffff;
+  border: 2px solid #935d30; /* fixed border */
+  color: #935d30;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 5s ease;
+  display: block;
+  text-align: center;
+}
+
+.resend-btn:hover {
+  background: #eddcd1;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;        /* full width again */
+  margin-bottom: 0.1rem;
+}
+
+.password-wrapper input {
+  width: 56%;
+  padding: 12px 48px 12px 14px; /* space for eye icon */
+  border: 1.5px solid #b68255;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #6b6b6b;
+}
+
+/* =============================
+   SIGN IN / SIGN UP BUTTON
+============================= */
+.signin-btn {
+  width: 70%;
+  margin: 0.5rem auto;
+  padding: 0.9rem;
+  background: #b68255;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: block;
+  text-align: center;
+}
+
+.signin-btn:hover {
+  background: #a06f46;
+}
+
+/* =============================
+   SIGN UP LINK
+============================= */
+.signup {
+  margin-top: 0.8rem;
+  font-size: 14px;
+  text-align: center;
+}
+
+.signup a {
+  color: #b68255;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+}
+
+.signup a::after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background: #b68255;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transition: width 0.25s;
+} 
+
+.signup a:hover::after {
+  width: 100%;
+}
+
+/* =============================
+   SIGN  LINK
+============================= */
+.back-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 14px;
+  color: #5a5a5a;
+}
+
+.back-link span {
+  color: #b68255;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.back-link span:hover {
+  color: #935d30;
+}
+
+/* ========================================
+   RESET SUCCESS STYLES
+======================================== */
+
+.success-check {
+  font-size: 80px;
+  margin-top: 1rem;
+  color: #4caf50; /* green check */
+  text-align: center;
+}
+
+.success-message {
+  text-align: center;
+  font-size: 16px;
+  color: #4a4a4a;
+  margin-top: 0.5rem;
+}
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+/* =============================
+   RESPONSIVE BREAKPOINTS
+============================= */
+@media (max-width: 1100px) {
+  .left-section {
+    width: 32vw;
+  }
+  .coffee-images img {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-section {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .right-section {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .headline {
+    font-size: 30px;
+  }
+  .logo-images {
+    width: 150px;
+  }
+}
+
+@media (min-width: 900px) {
+  .coffee-images img {
+    max-width: 500px;
+  }
+}
