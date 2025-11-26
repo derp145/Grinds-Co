@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import coffee from "../assets/CoffeeCups.png";
 import logo from "../assets/LoginLogo.png";
 
-function ConfirmCode({ onNavigate }) {
+function ConfirmCode() {
+  const navigate = useNavigate();
+
   const [codeDigits, setCodeDigits] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -16,25 +19,24 @@ function ConfirmCode({ onNavigate }) {
 
   const handleDigitChange = (index, value) => {
     if (!/^\d*$/.test(value)) return;
+
     const newCode = [...codeDigits];
     newCode[index] = value;
     setCodeDigits(newCode);
 
-    if (value && index < 5) {
-      document.getElementById(`digit-${index + 1}`).focus();
-    }
-    if (!value && index > 0) {
-      document.getElementById(`digit-${index - 1}`).focus();
-    }
+    if (value && index < 5) document.getElementById(`digit-${index + 1}`).focus();
+    if (!value && index > 0) document.getElementById(`digit-${index - 1}`).focus();
   };
 
   const handleConfirm = () => {
     const code = codeDigits.join("");
+
     if (code !== "123456") {
       setError("Invalid code");
       return;
     }
-    onNavigate("newPassword");
+
+    navigate("/auth/new-password");
   };
 
   const handleResend = () => {
@@ -44,23 +46,15 @@ function ConfirmCode({ onNavigate }) {
 
   return (
     <div className="container">
-      {/* LEFT SECTION */}
       <div className="left-section">
-        <img src={logo} alt="Grinds & Co Logo" className="logo-images" />
-        <h1 className="headline">
-          Confirm<br />Your Code
-        </h1>
-        <p className="subtext">
-          Enter the code sent to <strong>{userEmail}</strong>.
-        </p>
-        <div className="coffee-images">
-          <img src={coffee} alt="CoffeeCups" />
-        </div>
+        <img src={logo} className="logo-images" />
+        <h1 className="headline">Confirm<br />Your Code</h1>
+        <p className="subtext">Enter the code sent to <strong>{userEmail}</strong>.</p>
+        <div className="coffee-images"><img src={coffee} /></div>
       </div>
 
-      {/* RIGHT SECTION */}
       <div className="right-section">
-        <button className="back-btn" onClick={() => onNavigate("forgot")}>
+        <button className="back-btn" onClick={() => navigate("/auth/forgot")}>
           ← Back
         </button>
 
@@ -84,18 +78,11 @@ function ConfirmCode({ onNavigate }) {
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <button className="signin-btn" onClick={handleConfirm}>
-          Confirm
-        </button>
-
-        <button className="resend-btn" onClick={handleResend}>
-          Resend
-        </button>
+        <button className="signin-btn" onClick={handleConfirm}>Confirm</button>
+        <button className="resend-btn" onClick={handleResend}>Resend</button>
 
         {resendMessage && (
-          <p style={{ color: "#b68255", marginTop: "5px", fontWeight: 500 }}>
-            {resendMessage}
-          </p>
+          <p style={{ color: "#b68255", fontWeight: 500 }}>{resendMessage}</p>
         )}
       </div>
     </div>

@@ -249,6 +249,7 @@ textarea:focus {
   text-decoration: underline; 
 }
 
+
 .code-inputs {
   display: flex;
   justify-content: center;
@@ -291,19 +292,19 @@ textarea:focus {
 .resend-btn:hover {
   background: #eddcd1;
 }
-
 .password-wrapper {
   position: relative;
-  width: 100%;        /* full width again */
+  width: 100%;
   margin-bottom: 0.1rem;
 }
 
 .password-wrapper input {
   width: 56%;
-  padding: 12px 48px 12px 14px; /* space for eye icon */
+  padding: 12px 48px 12px 14px;  /* space for eye icon */
   border: 1.5px solid #b68255;
   border-radius: 8px;
   font-size: 15px;
+  outline: none;
 }
 
 .password-toggle {
@@ -315,6 +316,7 @@ textarea:focus {
   font-size: 20px;
   color: #6b6b6b;
 }
+
 
 /* =============================
    SIGN IN / SIGN UP BUTTON

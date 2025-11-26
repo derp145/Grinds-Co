@@ -1,15 +1,34 @@
 /* === SIDEBAR CONTAINER === */
+/* === SIDEBAR CONTAINER (fixed + scrollable + clickable) === */
 .sidebar {
-  width: 260px;
-  height: 800px;
-  background: #EFE8DA; /* light beige (from image) */
+  width: 200px;
+  position: fixed; /* keep it fixed to the left of the viewport */
+  top: 0;
+  left: 0;
+  bottom: 0; /* ensures it spans full height without relying on height:100vh */
+  padding: 20px;
+  background: #EFE8DA; /* light beige */
   display: flex;
   flex-direction: column;
-  padding: 22px;
-  box-sizing: border-box;
-  border-right: 1px solid #D6CBBE;
   font-family: "Poppins", sans-serif;
+  overflow-y:auto;
+  overflow-x: hidden; /* allow internal scrolling when content is tall */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+  z-index: 1000; /* keep above page content but below modals if needed */
 }
+
+/* Optional: visual separation when page scrolls */
+.sidebar::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: rgba(0,0,0,0.03);
+  pointer-events: none;
+}
+
 
 /* === LOGO === */
 .sidebar-logo {
@@ -86,7 +105,7 @@
 
 /* === FOOTER (SIGN OUT) === */
 .sidebar-footer {
-  margin-top: auto;
+  margin-top: 30%;
 }
 
 .logout-btn {
@@ -104,4 +123,3 @@
 .logout-btn:hover {
   background: #A03930;
 }
-

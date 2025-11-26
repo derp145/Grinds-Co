@@ -1,47 +1,22 @@
-import React, { useState } from "react";
-
-import SignIn from "./auth/SignIn";
-import SignUp from "./auth/SignUp";
-import ForgotPass from "./auth/ForgotPass";
-import ConfirmCode from "./auth/ConfirmCode";
-import NewPassword from "./auth/NewPass";
-import ResetSuccess from "./auth/ResetSuccess";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthRoute from "./Routes/AuthRoute";
 import RouteLayout from "./common/RouteLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
-  const [page, setPage] = useState("signin");
-
-  const handleNavigate = (targetPage) => {
-    setPage(targetPage);
-  };
-
-  const isAuthPage =
-    page === "signin" ||
-    page === "signup" ||
-    page === "forgot" ||
-    page === "confirmCode" ||
-    page === "newPassword" ||
-    page === "resetSuccess";
-
   return (
-    <>
-      {/* AUTH PAGES */}
-      {page === "signin" && <SignIn onNavigate={setPage} />}
-      {page === "signup" && <SignUp onNavigate={setPage} />}
-      {page === "forgot" && <ForgotPass onNavigate={setPage} />}
-      {page === "confirmCode" && <ConfirmCode onNavigate={setPage} />}
-      {page === "newPassword" && <NewPassword onNavigate={setPage} />}
-      {page === "resetSuccess" && <ResetSuccess onNavigate={setPage} />}
+    <BrowserRouter>
+      <Routes>
+        {/* Auth pages (no layout) */}
+        <Route path="/auth/*" element={<AuthRoute />} />
 
-      {/* APP PAGES (with sidebar inside RouteLayout) */}
-      {!isAuthPage && (
-        <RouteLayout onNavigate={handleNavigate} currentPage={page}>
-          {page === "dashboard" && <Dashboard />}
-        </RouteLayout>
-      )}
-    </>
+        {/* Main app pages (with layout) */}
+        <Route path="/*" element={<RouteLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          {/* Add more pages here */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

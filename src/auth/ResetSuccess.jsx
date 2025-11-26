@@ -1,53 +1,48 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import coffee from "../assets/CoffeeCups.png";
 import logo from "../assets/LoginLogo.png";
 
-function ResetSuccess({ onNavigate }) {
+function ResetSuccess() {
+  const navigate = useNavigate();
+
+  const goToSignIn = () => {
+    navigate("/auth/signin");
+  };
+
   return (
     <div className="container">
 
-      {/* LEFT SECTION — EXACT SAME AS ALL OTHER PAGES */}
+      {/* LEFT SECTION */}
       <div className="left-section">
-        <div className="top-bars">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-        <img src={logo} alt="Grinds & Co Logo" className="logo-images" />
-
+        <img src={logo} alt="Logo" className="logo-images" />
         <h1 className="headline">
-          Password <br /> Reset Successful
+          Password<br />Reset Successful
         </h1>
-
         <p className="subtext">
-          Your password has been updated.
+          Everything is all set. You may now sign in safely.
         </p>
-
         <div className="coffee-images">
-          <img src={coffee} alt="CoffeeCups" />
+          <img src={coffee} alt="Coffee" />
         </div>
       </div>
 
-      {/* RIGHT SECTION — CUSTOM FOR SUCCESS PAGE */}
+      {/* RIGHT SECTION */}
       <div className="right-section">
         <h1 className="welcome">All Done!</h1>
-        <p className="desc">You can now log in with your new password.</p>
+        <p className="desc">Your password has been successfully updated.</p>
 
-        <div className="success-container">
-          <div className="success-check">✅</div>
-        </div>
+        <div className="success-check">✅</div>
 
         <button
+          type="button"
           className="signin-btn"
-          onClick={() => onNavigate("signin")}
-          style={{ marginTop: "1rem" }}
+          onClick={goToSignIn}
         >
           Back to Sign In
         </button>
       </div>
-
     </div>
   );
 }

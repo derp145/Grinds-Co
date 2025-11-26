@@ -1,0 +1,181 @@
+/* GLOBAL */
+.inventory-page,
+.item-form-page {
+  padding: 40px 50px;
+  font-family: "Inter", sans-serif;
+  color: #3f2f25;
+  background: #faf5f1;
+}
+
+/* HEADERS */
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #b8a89a;
+  margin-bottom: 6px;
+}
+
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inv-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.inv-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  padding: 12px 16px;
+  width: 260px;
+  border-radius: 12px;
+  border: 1px solid #e0d4c6;
+  font-size: 15px;
+}
+
+/* BUTTONS */
+.new-item-btn,
+.create,
+.cancel,
+.edit,
+.delete {
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 15px;
+}
+
+/* New Item */
+.new-item-btn {
+  background: #5a4633;
+  color: white;
+}
+
+.new-item-btn:hover {
+  background: #4a3a2b;
+}
+
+/* Table */
+.inv-table {
+  margin-top: 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  font-size: 14px;
+  color: #7a6a5d;
+  padding-bottom: 14px;
+}
+
+tbody td {
+  padding: 18px 0;
+  border-top: 1px solid #f0eae5;
+  font-size: 15px;
+}
+
+/* Reorder tag */
+.reorder {
+  color: #b48a68;
+  margin-left: 8px;
+  font-size: 13px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit {
+  background: #eedfd2;
+  color: #5a4633;
+}
+
+.delete {
+  background: #c25740;
+  color: white;
+}
+
+.delete:hover {
+  background: #a84330;
+}
+
+/* FORM CARD */
+.form-card {
+  margin-top: 25px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 20px;
+  border: 1px solid #f0eae5;
+  box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a6a5d;
+}
+
+.form-group input {
+  margin-top: 8px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e0d4c6;
+  font-size: 15px;
+}
+
+.form-group small {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b8a89a;
+}
+
+/* Form buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.cancel {
+  background: transparent;
+  color: #5a4633;
+}
+
+.create {
+  background: #5a4633;
+  color: white;
+}
+
+/* DELETE ITEM (big red button) */
+.big-delete {
+  background: #c25740;
+  color: white;
+}
