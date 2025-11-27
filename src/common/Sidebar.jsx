@@ -5,14 +5,16 @@ import {
   FaTags,
   FaUsers,
   FaChartBar,
-  FaArrowCircleDown,
-  FaArrowCircleUp,
   FaFileAlt,
   FaUserCog,
   FaSignOutAlt,
   FaUserCircle,
+  FaShoppingCart
 } from "react-icons/fa";
 import "./Sidebar.css";
+
+// Updated logo import
+import logo from "../assets/LoginLogo.png";
 
 function Sidebar({ currentPage }) {
   const navigate = useNavigate();
@@ -26,9 +28,10 @@ function Sidebar({ currentPage }) {
     { section: "MAIN MENU" },
     { key: "dashboard", label: "Dashboard", icon: <FaChartBar /> },
     { key: "inventoryItems", label: "Inventory Items", icon: <FaBox /> },
-    { section: "ACTION" },
-    { key: "stockIn", label: "Stock In", icon: <FaArrowCircleDown /> },
-    { key: "stockOut", label: "Stock Out", icon: <FaArrowCircleUp /> },
+
+    { section: "PURCHASES" },
+    { key: "purchasedOrder", label: "Purchased Order", icon: <FaShoppingCart /> },
+
     { section: "USER MANAGEMENT" },
     { key: "reports", label: "Reports", icon: <FaFileAlt /> },
     { key: "users", label: "Users", icon: <FaUsers /> },
@@ -39,7 +42,7 @@ function Sidebar({ currentPage }) {
     <div className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <h2>Grinds & Co.</h2>
+        <img src={logo} alt="Grinds & Co Logo" className="logo-images" />
       </div>
 
       {/* Profile */}
@@ -55,14 +58,12 @@ function Sidebar({ currentPage }) {
       <nav className="sidebar-menu">
         {menuItems.map((item, index) =>
           item.section ? (
-            <h4 key={index} className="menu-title">
-              {item.section}
-            </h4>
+            <h4 key={index} className="menu-title">{item.section}</h4>
           ) : (
             <button
               key={item.key}
               className={currentPage === item.key ? "active" : ""}
-              onClick={() => navigate(item.key)}
+              onClick={() => navigate("/" + item.key)}
             >
               {item.icon} {item.label}
             </button>

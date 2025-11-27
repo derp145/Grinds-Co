@@ -10,3 +10,12 @@
   background:#EFE8DA;;
   overflow-y: auto;
 }
+
+/* MAIN CONTENT AREA (everything to the right of the sidebar) */
+.layout-right {
+  margin-left: 200px; /* SAME as .sidebar width */
+  padding: 40px;
+  min-height: 100vh;
+  background: #faf5f1;
+  box-sizing: border-box;
+}

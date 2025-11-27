@@ -1,13 +1,14 @@
-/* GLOBAL */
+/* =========================================================
+   GLOBAL WRAPPERS  (Shared Layout)
+========================================================= */
 .inventory-page,
 .item-form-page {
-  padding: 40px 50px;
+  padding: 100px 50px;
   font-family: "Inter", sans-serif;
   color: #3f2f25;
   background: #faf5f1;
 }
 
-/* HEADERS */
 .eyebrow {
   text-transform: uppercase;
   font-size: 12px;
@@ -16,6 +17,18 @@
   margin-bottom: 6px;
 }
 
+button {
+  cursor: pointer;
+  border: none;
+  font-size: 15px;
+}
+
+/* =========================================================
+   A. INVENTORY PAGE
+   (Header, Search Bar, Table, Action Buttons)
+========================================================= */
+
+/* Header layout */
 .inv-header {
   display: flex;
   justify-content: space-between;
@@ -27,13 +40,14 @@
   font-weight: 700;
 }
 
+/* Search bar + button wrapper */
 .inv-header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* SEARCH BAR */
+/* Search bar */
 .search-bar {
   padding: 12px 16px;
   width: 260px;
@@ -42,64 +56,72 @@
   font-size: 15px;
 }
 
-/* BUTTONS */
-.new-item-btn,
-.create,
-.cancel,
-.edit,
-.delete {
-  cursor: pointer;
-  border: none;
-  border-radius: 12px;
-  padding: 10px 18px;
-  font-size: 15px;
-}
-
-/* New Item */
+/* New Item button */
 .new-item-btn {
   background: #5a4633;
   color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
 }
-
 .new-item-btn:hover {
   background: #4a3a2b;
 }
 
-/* Table */
+/* ---------- TABLE ---------- */
+
 .inv-table {
-  margin-top: 30px;
+  width: 105%;
+  margin-top: 25px;
   background: white;
-  border-radius: 20px;
-  box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
-  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f0eae5;
+  overflow: hidden;
+  table-layout: fixed;
 }
 
-table {
+.inv-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-thead th {
-  text-align: left;
-  font-size: 14px;
-  color: #7a6a5d;
-  padding-bottom: 14px;
-}
-
-tbody td {
-  padding: 18px 0;
-  border-top: 1px solid #f0eae5;
+.inv-table th,
+.inv-table td {
+  padding: 16px 22px;
   font-size: 15px;
+  border-bottom: 1px solid #f5ede7;
 }
 
-/* Reorder tag */
+.inv-table th {
+  background: #f2ebe6;
+  color: #3f2f25;
+  font-weight: 700;
+}
+
+.inv-table td {
+  color: #4a3c32;
+}
+
+.inv-table tr:hover td {
+  background: #faf4ef;
+}
+
+.inv-table th:first-child,
+.inv-table td:first-child {
+  padding-left: 28px;
+}
+
+/* Reorder Badge */
 .reorder {
+  background: #f8ede3;
   color: #b48a68;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 6px;
   margin-left: 8px;
-  font-size: 13px;
 }
 
-/* Actions */
+/* Action buttons */
 .actions {
   display: flex;
   gap: 10px;
@@ -108,74 +130,167 @@ tbody td {
 .edit {
   background: #eedfd2;
   color: #5a4633;
+  padding: 8px 14px;
+  border-radius: 10px;
 }
 
 .delete {
   background: #c25740;
   color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
 }
-
 .delete:hover {
   background: #a84330;
 }
 
-/* FORM CARD */
+/* =========================================================
+   B. ADD ITEM PAGE
+   (Form Card, Grid, Unit Costing Row)
+========================================================= */
+
 .form-card {
   margin-top: 25px;
-  background: #ffffff;
-  padding: 32px;
+  background: white;
+  padding: 65px;
   border-radius: 20px;
   border: 1px solid #f0eae5;
   box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
 }
 
-.form-row {
+/* Form grid */
+.form-row-3 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
   margin-bottom: 32px;
 }
 
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #7a6a5d;
+.form-row-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 32px;
 }
 
+/* Input styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #7a6a5d;
+}
 .form-group input {
-  margin-top: 8px;
   width: 100%;
   border-radius: 12px;
   padding: 14px 16px;
   border: 1px solid #e0d4c6;
   font-size: 15px;
 }
-
 .form-group small {
-  margin-top: 6px;
   font-size: 12px;
   color: #b8a89a;
+  margin-top: 6px;
 }
 
-/* Form buttons */
+/* Unit costing row */
+.unit-costing-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.unit-costing-row .form-group {
+  max-width: 120px;
+}
+
+/* Add item buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+.action-buttons button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.action-buttons .cancel-btn {
+  background: #e5e7eb;
+  color: #374151;
+}
+.action-buttons .create-btn {
+  background: #724914;
+  color: white;
+}
+
+/* =========================================================
+   C. UPDATE ITEM PAGE
+   (Form, Footer Buttons, Delete Popup)
+========================================================= */
+
+.item-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
 }
 
-.cancel {
-  background: transparent;
-  color: #5a4633;
-}
-
-.create {
-  background: #5a4633;
-  color: white;
-}
-
-/* DELETE ITEM (big red button) */
 .big-delete {
   background: #c25740;
   color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+/* ----- DELETE POPUP ----- */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.popup-card {
+  background: white;
+  padding: 32px;
+  width: 380px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.popup-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.popup-card p {
+  font-size: 15px;
+  color: #6b5a4b;
+  margin-bottom: 24px;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.popup-actions .delete {
+  background: #c25740;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
 }

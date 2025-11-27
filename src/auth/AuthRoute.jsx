@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import SignIn from "../auth/SignIn";
-import SignUp from "../auth/SignUp";
-import ForgotPass from "../auth/ForgotPass";
-import ConfirmCode from "../auth/ConfirmCode";
-import NewPass from "../auth/NewPass";
-import ResetSuccess from "../auth/ResetSuccess";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import ForgotPass from "./ForgotPass";
+import ConfirmCode from "./ConfirmCode";
+import NewPass from "./NewPass";
+import ResetSuccess from "./ResetSuccess";
 
 function AuthRoute() {
   return (
