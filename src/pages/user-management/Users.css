@@ -1,0 +1,210 @@
+/* =========================================================
+   GLOBAL PAGE WRAPPER
+========================================================= */
+.users-page {
+  padding: 100px 50px;
+  font-family: "Inter", sans-serif;
+  background: #faf5f1;
+  color: #3f2f25;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.users-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.add-btn {
+  background: #5a4633;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.add-btn:hover {
+  background: #4a3a2b;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+.users-table {
+  width: 100%;
+  margin-top: 30px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5dcd3;
+}
+
+.users-table th,
+.users-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f2e8df;
+  font-size: 15px;
+}
+
+.users-table th {
+  background: #f1e9e2;
+  font-weight: 700;
+}
+
+.users-table tr:hover td {
+  background: #faf4ef;
+}
+
+.actions-col {
+  width: 180px;
+}
+
+/* Buttons inside table */
+.edit-btn {
+  background: #eedfd2;
+  color: #5a4633;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+.edit-btn:hover {
+  background: #dfd0c3;
+}
+
+.delete-btn {
+  background: #c25740;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+.delete-btn:hover {
+  background: #a84330;
+}
+
+/* =========================================================
+   OVERLAY (USED FOR FORM + DELETE MODAL)
+========================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+
+/* =========================================================
+   ADD / EDIT FORM
+========================================================= */
+.form-card {
+  background: white;
+  width: 460px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(100, 80, 60, 0.25);
+}
+
+.form-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+/* Form fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7a6a5d;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid #d8ccc0;
+  border-radius: 12px;
+  width: 100%;
+  background: white;
+}
+
+.form-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+.cancel-btn:hover {
+  background: #d4d6d9;
+}
+
+.save-btn {
+  background: #724914;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+.save-btn:hover {
+  background: #5d3a11;
+}
+
+/* =========================================================
+   DELETE CONFIRMATION MODAL
+========================================================= */
+.delete-modal {
+  background: white;
+  width: 350px;
+  padding: 32px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.delete-modal h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.delete-modal p {
+  font-size: 15px;
+  color: #6b5a4b;
+  margin-bottom: 26px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.confirm-delete-btn {
+  background: #c25740;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+}
+.confirm-delete-btn:hover {
+  background: #a84330;
+}

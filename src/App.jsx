@@ -7,6 +7,9 @@ import Inventory from "./pages/inventory-management/Inventory";
 import AddItem from "./pages/inventory-management/AddItem";
 import UpdateItem from "./pages/inventory-management/UpdateItem";
 import PurchasedOrder from "./pages/master-data/PurchasedOrder";
+import Reports from "./pages/user-management/Reports";   // ✔ correct import
+import Users from "./pages/user-management/Users";     
+import Settings from "./pages/user-management/Settings";     
 
 function App() {
   return (
@@ -21,19 +24,27 @@ function App() {
 
         {/* MAIN LAYOUT */}
         <Route element={<RouteLayout />}>
+          
+          {/* Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* INVENTORY */}
+
+          {/* Inventory */}
           <Route path="/inventoryItems" element={<Inventory />} />
           <Route path="/inventoryItems/new" element={<AddItem />} />
           <Route path="/inventoryItems/update/:id" element={<UpdateItem />} />
 
-          {/* PURCHASED ORDER */}
+          {/* Purchase Orders */}
           <Route path="/purchasedOrder" element={<PurchasedOrder />} />
 
-          {/* OTHER */}
-          <Route path="/reports" element={<div>Reports Page</div>} />
-          <Route path="/users" element={<div>Users Page</div>} />
-          <Route path="/settings" element={<div>Settings Page</div>} />
+          {/* Reports */}
+          <Route path="/reports" element={<Reports />} />
+
+          {/* Users Page */}
+          <Route path="/users" element={<Users />} />
+
+          {/* Settings */}
+          <Route path="/settings" element={<Settings />} />
+
         </Route>
 
       </Routes>

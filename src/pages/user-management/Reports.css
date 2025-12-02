@@ -1,0 +1,63 @@
+/* REPORTS PAGE BASE */
+.reports-page {
+  padding: 40px 50px;
+  font-family: "Inter", sans-serif;
+  color: #3f2f25;
+}
+
+.reports-title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.reports-subtitle {
+  margin-top: 6px;
+  color: #8c7a6d;
+}
+
+/* SUMMARY CARDS */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.summary-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.summary-card h3 {
+  font-size: 16px;
+  color: #8c7a6d;
+}
+
+.summary-card p {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 6px;
+  color: #3f2f25;
+}
+
+/* REPORT SECTION */
+.report-section {
+  margin: 3rem 0;
+}
+
+.report-subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* CHART CONTAINER */
+.chart-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}

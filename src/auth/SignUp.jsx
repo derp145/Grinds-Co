@@ -3,8 +3,11 @@ import "./Auth.css";
 import coffee from "../assets/CoffeeCups.png";
 import logo from "../assets/LoginLogo.png";
 import { IoEyeOff, IoEye } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";   // ✅ added
 
-function SignUp({ onNavigate }) {
+function SignUp() {
+  const navigate = useNavigate();  // ✅ added
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,10 +30,10 @@ function SignUp({ onNavigate }) {
     }
 
     const newUser = { fullName, email, password, role };
-
     localStorage.setItem("registeredUser", JSON.stringify(newUser));
+
     alert("Account created successfully!");
-    onNavigate("signin");
+    navigate("/auth/signin");   // ✅ changed
   };
 
   return (
@@ -54,7 +57,9 @@ function SignUp({ onNavigate }) {
 
       {/* RIGHT */}
       <div className="right-section">
-        <button className="back-btn" onClick={() => onNavigate("signin")}>
+
+        {/* ✅ FIXED BACK BUTTON */}
+        <button className="back-btn" onClick={() => navigate("/auth/signin")}>
           ← Back to Sign In
         </button>
 
@@ -129,9 +134,12 @@ function SignUp({ onNavigate }) {
           Create Account
         </button>
 
+        {/* ✅ FIXED SIGN IN LINK */}
         <p className="signup">
           Already registered?{" "}
-          <a onClick={() => onNavigate("signin")}>Sign in</a>
+          <a style={{ cursor: "pointer" }} onClick={() => navigate("/auth/signin")}>
+            Sign in
+          </a>
         </p>
       </div>
     </div>

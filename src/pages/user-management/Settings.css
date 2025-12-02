@@ -1,0 +1,128 @@
+/* PAGE WRAPPER */
+.settings-page {
+  padding: 40px 50px;
+  font-family: "Inter", sans-serif;
+  background: #faf5f1;
+  color: #3f2f25;
+
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.header-row {
+  margin-top: 60px;
+  margin-bottom: 26px;
+}
+
+.header-row h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.muted {
+  font-size: 14px;
+  color: #8a776a;
+  margin-top: 4px;
+}
+
+/* SETTINGS CARDS */
+.settings-card {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid #f0eae5;
+  box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
+  margin-bottom: 30px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.settings-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(160, 140, 120, 0.22);
+}
+
+/* CARD TITLE */
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* FORM GROUPS */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7a6a5d;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid #d8ccc0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #bfa38f;
+}
+
+/* TOGGLE ROWS */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1e9e2;
+}
+
+.toggle-row:last-child {
+  border-bottom: none;
+}
+
+.toggle-row label {
+  font-size: 15px;
+  color: #3f2f25;
+}
+
+.toggle-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #7a553a;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  background: #724914;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: 0.25s ease;
+  display: inline-block;
+}
+
+.save-btn:hover {
+  background: #5d3a11;
+}
+
+/* SUCCESS MESSAGE */
+.saved-msg {
+  color: #3f2f25;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+}

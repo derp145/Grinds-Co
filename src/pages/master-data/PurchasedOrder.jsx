@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PurchasedOrder.css";
 
+
 const dummyOrders = [
   {
     id: 1,
