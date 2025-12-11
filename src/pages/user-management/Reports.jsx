@@ -1,5 +1,5 @@
-// Reports.jsx
 import React, { useEffect, useState } from "react";
+import { supabase } from "../../supabaseClient"; // Import supabase
 import "./Reports.css";
 
 import {
@@ -14,17 +14,34 @@ import {
 
 const Reports = () => {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("inventory")) || [];
-    setItems(stored);
+    fetchItems();
   }, []);
+
+  // Fetch all inventory items from Supabase
+  const fetchItems = async () => {
+    setLoading(true);
+    
+    const { data, error } = await supabase
+      .from("inventory")
+      .select("*");
+
+    if (error) {
+      console.error("Error fetching inventory:", error);
+    } else {
+      setItems(data || []);
+    }
+    
+    setLoading(false);
+  };
 
   // SUMMARY
   const totalItems = items.length;
   const totalQuantity = items.reduce((sum, item) => sum + Number(item.quantity), 0);
   const totalValue = items.reduce(
-    (sum, item) => sum + Number(item.quantity) * Number(item.unitCost),
+    (sum, item) => sum + Number(item.quantity) * Number(item.unit_cost), // Changed unitCost to unit_cost
     0
   );
 
@@ -38,7 +55,7 @@ const Reports = () => {
       categoryValues[item.category] = 0;
     }
     categoryTotals[item.category] += Number(item.quantity);
-    categoryValues[item.category] += Number(item.quantity) * Number(item.unitCost);
+    categoryValues[item.category] += Number(item.quantity) * Number(item.unit_cost); // Changed unitCost to unit_cost
   });
 
   const graphData = Object.keys(categoryTotals).map((cat) => ({
@@ -46,6 +63,16 @@ const Reports = () => {
     quantity: categoryTotals[cat],
     value: categoryValues[cat],
   }));
+
+  if (loading) {
+    return (
+      <div className="reports-page">
+        <div style={{ textAlign: "center", padding: "40px" }}>
+          Loading reports...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="reports-page">

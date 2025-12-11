@@ -7,15 +7,15 @@ import "./RouteLayout.css";
 const RouteLayout = () => {
   const location = useLocation();
 
-  // Convert path → key (e.g. "/stock-in" → "stock-in")
-  const pageKey = location.pathname.replace("/", "") || "dashboard";
+  // Convert path → key for Sidebar highlighting
+  const pageKey = location.pathname.split("/")[1] || "dashboard";
 
   return (
     <div className="layout-container">
       <Sidebar currentPage={pageKey} />
 
       <div className="layout-right">
-        <Header currentPage={pageKey} />
+        <Header /> {/* Removed currentPage prop */}
         <Outlet />
       </div>
     </div>

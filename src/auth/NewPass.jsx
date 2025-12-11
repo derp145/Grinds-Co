@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import "./Auth.css";
 import coffee from "../assets/CoffeeCups.png";
@@ -13,12 +14,28 @@ function NewPass() {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    // Check if user came from OTP verification
+    const otpVerified = localStorage.getItem("otpVerified");
+    if (!otpVerified) {
+      // If not verified, redirect back
+      navigate("/auth/forgot");
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!password || !confirmPass) {
       setError("Please fill all fields.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
       return;
     }
 
@@ -27,7 +44,25 @@ function NewPass() {
       return;
     }
 
-    setError("");
+    setLoading(true);
+
+    // Update the user's password
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: password,
+    });
+
+    setLoading(false);
+
+    if (updateError) {
+      setError(updateError.message || "Failed to update password. Please try again.");
+      return;
+    }
+
+    // Clear localStorage
+    localStorage.removeItem("resetEmail");
+    localStorage.removeItem("otpVerified");
+
+    // Success! Navigate to success page
     navigate("/auth/reset-success");
   };
 
@@ -35,10 +70,10 @@ function NewPass() {
     <div className="container">
       {/* LEFT SIDE */}
       <div className="left-section">
-        <img src={logo} className="logo-images" />
+        <img src={logo} className="logo-images" alt="Logo" />
         <h1 className="headline">Create<br />New Password</h1>
         <p className="subtext">Make sure your new password is strong.</p>
-        <div className="coffee-images"><img src={coffee} /></div>
+        <div className="coffee-images"><img src={coffee} alt="Coffee" /></div>
       </div>
 
       {/* RIGHT SIDE */}
@@ -100,8 +135,12 @@ function NewPass() {
 
           {error && <p className="error-text">{error}</p>}
 
-          <button className="signin-btn" type="submit">
-            Reset Password
+          <button 
+            className="signin-btn" 
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Resetting..." : "Reset Password"}
           </button>
 
         </form>

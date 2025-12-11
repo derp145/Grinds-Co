@@ -3,45 +3,69 @@ import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import coffee from "../assets/CoffeeCups.png";
 import logo from "../assets/LoginLogo.png";
+import { supabase } from "../supabaseClient"; 
 
 function SignIn() {
   const navigate = useNavigate();
 
-  const dummyUser = {
-    email: "admin",
-    password: "123",
-    role: "Admin",
-  };
-
-  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSignIn = () => {
-    const trimmedEmail = email.trim().toLowerCase();
+  const handleSignIn = async () => {
+    setError(""); 
+    const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
-    const selectedRole = role || dummyUser.role;
 
-    if (
-      trimmedEmail === dummyUser.email.toLowerCase() &&
-      trimmedPassword === dummyUser.password &&
-      selectedRole === dummyUser.role
-    ) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ email: trimmedEmail, role: selectedRole })
-      );
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: trimmedEmail,
+      password: trimmedPassword,
+    });
 
-      navigate("/dashboard");
-
-    } else {
-      setError("Invalid email, password, or role");
+    if (error) {
+      if (error.message.includes("Email not confirmed")) {
+        setError("Your email is not yet verified. Please check your inbox and confirm your account.");
+      } else {
+        setError("Invalid email or password");
+      }
+      return;
     }
+
+    console.log("User logged in:", data.user.id);
+
+    // Fetch user profile data
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", data.user.id)
+      .single();
+
+    console.log("Profile data:", profileData);
+    console.log("Profile error:", profileError);
+
+    if (profileError) {
+      console.error("Error fetching profile:", profileError);
+      // Still allow login but with default values
+    }
+
+    // Save user info in localStorage
+    localStorage.setItem("user", JSON.stringify({
+      id: data.user.id,
+      email: data.user.email,
+      name: profileData?.full_name || "User",
+      role: profileData?.role || "Staff"
+    }));
+
+    console.log("Saved to localStorage:", {
+      name: profileData?.full_name || "User",
+      role: profileData?.role || "Staff"
+    });
+
+    navigate("/dashboard");
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // prevents page refresh
+    e.preventDefault();
     handleSignIn();
   };
 
@@ -59,20 +83,10 @@ function SignIn() {
         </div>
       </div>
 
-      {/* RIGHT SECTION */}
       <div className="right-section">
         <form className="login-container" onSubmit={handleSubmit}>
           <h1 className="welcome">Welcome Back</h1>
           <p className="desc">Enter your credentials to access your account.</p>
-
-          <div className="input-group">
-            <label>User Role</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="">Select user role</option>
-              <option value="Admin">Admin</option>
-              <option value="Staff">Staff</option>
-            </select>
-          </div>
 
           <div className="input-group">
             <label>Email</label>
@@ -96,7 +110,6 @@ function SignIn() {
 
           {error && <p className="error-message">{error}</p>}
 
-          {/* ENTER NOW WORKS */}
           <button className="signin-btn" type="submit">
             Sign In
           </button>

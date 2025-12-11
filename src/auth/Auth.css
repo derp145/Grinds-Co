@@ -241,13 +241,19 @@ textarea:focus {
   cursor: pointer;  
   text-decoration: underline;
   padding: 0;
-  margin: 0;
+
+  /* NEW */
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0 0.3rem; 
 }
 
 .forgot:hover {
   color: #1db2e0;
   text-decoration: underline; 
 }
+
 
 
 .code-inputs {
@@ -372,6 +378,20 @@ textarea:focus {
 .signup a:hover::after {
   width: 100%;
 }
+
+/* =============================
+   ERROR MESSAGE
+============================= */
+
+.error-message {
+  color: red;
+  text-decoration: underline;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
 
 /* =============================
    SIGN  LINK

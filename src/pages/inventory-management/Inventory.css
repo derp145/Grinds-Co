@@ -1,20 +1,22 @@
 /* =========================================================
-   GLOBAL WRAPPERS  (Shared Layout)
+   GLOBAL WRAPPERS
 ========================================================= */
 .inventory-page,
 .item-form-page {
-  padding: 100px 50px;
+  padding: 40px 60px;
   font-family: "Inter", sans-serif;
   color: #3f2f25;
   background: #faf5f1;
+  min-height: 100vh;
 }
 
 .eyebrow {
   text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
   color: #b8a89a;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 button {
@@ -24,23 +26,23 @@ button {
 }
 
 /* =========================================================
-   A. INVENTORY PAGE
-   (Header, Search Bar, Table, Action Buttons)
+   INVENTORY LIST PAGE
 ========================================================= */
 
-/* Header layout */
+/* Header */
 .inv-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .inv-header h1 {
   font-size: 32px;
   font-weight: 700;
+  margin-top: 8px;
 }
 
-/* Search bar + button wrapper */
 .inv-header-right {
   display: flex;
   align-items: center;
@@ -54,6 +56,12 @@ button {
   border-radius: 12px;
   border: 1px solid #e0d4c6;
   font-size: 15px;
+  background: white;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #8b7355;
 }
 
 /* New Item button */
@@ -63,195 +71,424 @@ button {
   width: 150px;
   height: 40px;
   border-radius: 5px;
+  font-weight: 500;
 }
+
 .new-item-btn:hover {
   background: #4a3a2b;
 }
 
-/* ---------- TABLE ---------- */
-
+/* Table */
 .inv-table {
-  width: 105%;
-  margin-top: 25px;
+  width: 100%;
   background: white;
   border-radius: 12px;
   border: 1px solid #f0eae5;
-  overflow: hidden;
-  table-layout: fixed;
+  overflow-x: auto;
 }
 
 .inv-table table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .inv-table th,
 .inv-table td {
-  padding: 16px 22px;
-  font-size: 15px;
-  border-bottom: 1px solid #f5ede7;
+  padding: 14px 16px;
+  font-size: 14px;
+  text-align: left;
+  vertical-align: middle;
+  height: 65px;
+  white-space: nowrap;
 }
 
 .inv-table th {
   background: #f2ebe6;
   color: #3f2f25;
   font-weight: 700;
+  height: auto;
 }
 
 .inv-table td {
   color: #4a3c32;
 }
 
-.inv-table tr:hover td {
+.inv-table tbody tr {
+  height: 65px;
+}
+
+.inv-table tbody tr:hover td {
   background: #faf4ef;
+}
+
+.inv-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .inv-table th:first-child,
 .inv-table td:first-child {
-  padding-left: 28px;
+  padding-left: 24px;
 }
 
-/* Reorder Badge */
+/* Specific column widths for better space management */
+.inv-table th:nth-child(1),
+.inv-table td:nth-child(1) {
+  min-width: 200px;
+}
+
+.inv-table th:nth-child(2),
+.inv-table td:nth-child(2) {
+  width: auto;
+}
+
+.inv-table th:nth-child(3),
+.inv-table td:nth-child(3) {
+  width: 80px;
+}
+
+.inv-table th:nth-child(4),
+.inv-table td:nth-child(4) {
+  width: 70px;
+}
+
+.inv-table th:nth-child(5),
+.inv-table td:nth-child(5) {
+  width: auto;
+}
+
+.inv-table th:nth-child(6),
+.inv-table td:nth-child(6) {
+  width: 140px;
+  font-size: 13px;
+}
+
+.inv-table th:nth-child(7),
+.inv-table td:nth-child(7) {
+  width: 110px;
+  text-align: right;
+}
+
+.inv-table th:nth-child(8),
+.inv-table td:nth-child(8) {
+  width: 105px;
+}
+
+/* Item name cell - flex layout for uniform appearance */
+.inv-table td:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Item name and reorder badge */
+.item-name {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .reorder {
+  display: inline-block;
   background: #f8ede3;
   color: #b48a68;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin-left: 8px;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Action buttons */
+/* Action buttons in table */
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .edit {
   background: #eedfd2;
   color: #5a4633;
-  padding: 8px 14px;
-  border-radius: 10px;
+  padding: 2px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.edit:hover {
+  background: #e4d3c0;
 }
 
 .delete {
   background: #c25740;
   color: white;
-  padding: 8px 14px;
-  border-radius: 10px;
+  padding: 2px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
 }
+
 .delete:hover {
   background: #a84330;
 }
 
-/* =========================================================
-   B. ADD ITEM PAGE
-   (Form Card, Grid, Unit Costing Row)
-========================================================= */
-
-.form-card {
-  margin-top: 25px;
-  background: white;
-  padding: 65px;
-  border-radius: 20px;
-  border: 1px solid #f0eae5;
-  box-shadow: 0 6px 16px rgba(160, 140, 120, 0.15);
+.edit,
+.delete {
+  height: 40px; 
 }
 
-/* Form grid */
+/* =========================================================
+   ADD/UPDATE ITEM FORMS
+========================================================= */
+
+/* Form header */
+.item-form-header {
+  margin-bottom: 36px;
+}
+
+.item-form-header h1,
+.page-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: #2d2214;
+}
+
+/* Main form card */
+.form-card {
+  background: white;
+  padding: 56px;
+  border-radius: 16px;
+  border: 1px solid #e8dfd5;
+  box-shadow: 0 4px 20px rgba(160, 140, 120, 0.12);
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* Error message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-radius: 10px;
+  margin-bottom: 28px;
+  border: 1px solid #fecaca;
+  font-size: 14px;
+}
+
+.error-message svg {
+  flex-shrink: 0;
+  color: #dc2626;
+}
+
+/* Form rows */
 .form-row-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: 28px;
 }
 
 .form-row-1 {
   display: grid;
   grid-template-columns: 1fr;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
-/* Input styling */
+/* Form groups */
 .form-group {
   display: flex;
   flex-direction: column;
 }
+
 .form-group label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #7a6a5d;
+  margin-bottom: 8px;
+  color: #5a4a3d;
+  letter-spacing: 0.2px;
 }
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+  font-size: 14px;
+}
+
 .form-group input {
   width: 100%;
-  border-radius: 12px;
-  padding: 14px 16px;
-  border: 1px solid #e0d4c6;
+  border-radius: 10px;
+  padding: 13px 15px;
+  border: 1.5px solid #ddd0c2;
   font-size: 15px;
+  transition: all 0.2s ease;
+  background: #fdfcfb;
+  color: #2d2214;
+  font-family: inherit;
+  box-sizing: border-box;
 }
+
+.form-group input:hover {
+  border-color: #c9baa8;
+  background: white;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8b7355;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.08);
+}
+
+.form-group input::placeholder {
+  color: #a89a88;
+  font-weight: 400;
+}
+
 .form-group small {
   font-size: 12px;
   color: #b8a89a;
   margin-top: 6px;
 }
 
-/* Unit costing row */
+/* Unit cost section */
 .unit-costing-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-.unit-costing-row .form-group {
-  max-width: 120px;
+  margin-bottom: 28px;
+  max-width: 380px;
 }
 
-/* Add item buttons */
+.input-with-prefix {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 15px;
+  color: #7a6a5d;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 1;
+  font-size: 15px;
+}
+
+.input-with-prefix-field {
+  padding-left: 38px !important;
+}
+
+/* Action buttons */
 .action-buttons {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #efe6dc;
 }
+
 .action-buttons button {
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+  letter-spacing: 0.3px;
 }
-.action-buttons .cancel-btn {
+
+.cancel-btn {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.cancel-btn:hover:not(:disabled) {
   background: #e5e7eb;
-  color: #374151;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
 }
-.action-buttons .create-btn {
-  background: #724914;
+
+.create-btn {
+  background: #6d4c1f;
   color: white;
+  box-shadow: 0 2px 8px rgba(109, 76, 31, 0.25);
+  border-radius: 10px;
+}
+
+.create-btn:hover:not(:disabled) {
+  background: #5a3f19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(109, 76, 31, 0.35);
+}
+
+.cancel-btn:disabled,
+.create-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Button spinner */
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* =========================================================
-   C. UPDATE ITEM PAGE
-   (Form, Footer Buttons, Delete Popup)
+   UPDATE ITEM PAGE
 ========================================================= */
-
-.item-form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #efe6dc;
+}
+
+.form-actions button {
+  border-radius: 10px;
 }
 
 .big-delete {
   background: #c25740;
   color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-/* ----- DELETE POPUP ----- */
+.big-delete:hover {
+  background: #a84330;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   DELETE POPUP
+========================================================= */
 
 .popup-overlay {
   position: fixed;
@@ -275,7 +512,9 @@ button {
 .popup-card h3 {
   font-size: 20px;
   margin-bottom: 10px;
+  color: #2d2214;
 }
+
 .popup-card p {
   font-size: 15px;
   color: #6b5a4b;
@@ -288,9 +527,102 @@ button {
   justify-content: center;
 }
 
+.popup-actions button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.popup-actions .cancel-btn {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+.popup-actions .cancel-btn:hover {
+  background: #e5e7eb;
+}
+
 .popup-actions .delete {
   background: #c25740;
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
+}
+
+.popup-actions .delete:hover {
+  background: #a84330;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 1300px) {
+  .form-card {
+    max-width: 95%;
+    padding: 48px;
+  }
+}
+
+@media (max-width: 968px) {
+  .inventory-page,
+  .item-form-page {
+    padding: 30px 24px;
+  }
+
+  .form-row-3 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .unit-costing-row {
+    max-width: 100%;
+  }
+  
+  .form-card {
+    padding: 36px 32px;
+  }
+
+  .inv-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .inv-header-right {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .search-bar,
+  .new-item-btn {
+    width: 100%;
+  }
+
+  .inv-table {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .action-buttons,
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .action-buttons button,
+  .form-actions button {
+    width: 100%;
+    min-width: unset;
+    border-radius: 10px;
+  }
+  
+  .form-card {
+    padding: 28px 24px;
+  }
+
+  .item-form-header h1,
+  .page-title {
+    font-size: 28px;
+  }
 }
