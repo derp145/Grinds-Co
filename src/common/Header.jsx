@@ -6,19 +6,50 @@ import "./Header.css";
 
 function Header() {
   const location = useLocation();
-
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [lowStockAlertEnabled, setLowStockAlertEnabled] = useState(true);
   const [userId, setUserId] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  // Initialize and check user's low stock alert preference
   useEffect(() => {
     initializeUser();
   }, []);
 
-  // Listen for changes to user's low stock alert preference and profile picture
+  // Listen for custom events from Settings component
+  useEffect(() => {
+    const handleProfileUpdate = (event) => {
+      console.log('Profile update event received:', event.detail);
+      
+      if (event.detail.low_stock_alert !== undefined) {
+        setLowStockAlertEnabled(event.detail.low_stock_alert);
+        
+        // If alert is disabled, clear all low stock notifications
+        if (!event.detail.low_stock_alert) {
+          const existingNotifs = JSON.parse(localStorage.getItem("notifications")) || [];
+          const nonLowStockNotifs = existingNotifs.filter(n => n.type !== "low_stock");
+          localStorage.setItem("notifications", JSON.stringify(nonLowStockNotifs));
+          setNotifications(nonLowStockNotifs);
+        } else {
+          // If alert is re-enabled, check for low stock items immediately
+          checkLowStockItems();
+        }
+      }
+      
+      // Update profile picture if changed
+      if (event.detail.profile_picture !== undefined) {
+        setProfilePicture(event.detail.profile_picture);
+      }
+    };
+
+    window.addEventListener('profileUpdated', handleProfileUpdate);
+
+    return () => {
+      window.removeEventListener('profileUpdated', handleProfileUpdate);
+    };
+  }, []);
+
+  // Listen for changes to user's low stock alert preference and profile picture via Supabase
   useEffect(() => {
     if (!userId) return;
 
@@ -33,20 +64,20 @@ function Header() {
           filter: `id=eq.${userId}`
         },
         (payload) => {
-          console.log('Profile updated:', payload);
+          console.log('Profile updated via Supabase:', payload);
           if (payload.new.low_stock_alert !== undefined) {
             setLowStockAlertEnabled(payload.new.low_stock_alert);
             
-            // If alert is disabled, clear all low stock notifications
             if (!payload.new.low_stock_alert) {
               const existingNotifs = JSON.parse(localStorage.getItem("notifications")) || [];
               const nonLowStockNotifs = existingNotifs.filter(n => n.type !== "low_stock");
               localStorage.setItem("notifications", JSON.stringify(nonLowStockNotifs));
               setNotifications(nonLowStockNotifs);
+            } else {
+              checkLowStockItems();
             }
           }
           
-          // Update profile picture if changed
           if (payload.new.profile_picture !== undefined) {
             setProfilePicture(payload.new.profile_picture);
           }
@@ -62,25 +93,21 @@ function Header() {
   // Set up real-time inventory monitoring
   useEffect(() => {
     if (lowStockAlertEnabled && userId) {
-      // Initial check
       checkLowStockItems();
-      
-      // Set up periodic checks every 2 minutes
+
       const interval = setInterval(checkLowStockItems, 2 * 60 * 1000);
 
-      // Set up real-time subscription to inventory changes
       const subscription = supabase
         .channel('inventory-changes')
         .on(
           'postgres_changes',
           {
-            event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+            event: '*',
             schema: 'public',
             table: 'inventory'
           },
           (payload) => {
             console.log('Inventory changed:', payload);
-            // Check low stock whenever inventory changes
             checkLowStockItems();
           }
         )
@@ -91,7 +118,6 @@ function Header() {
         subscription.unsubscribe();
       };
     } else if (!lowStockAlertEnabled) {
-      // If alert is disabled, clear all low stock notifications
       const existingNotifs = JSON.parse(localStorage.getItem("notifications")) || [];
       const nonLowStockNotifs = existingNotifs.filter(n => n.type !== "low_stock");
       localStorage.setItem("notifications", JSON.stringify(nonLowStockNotifs));
@@ -102,11 +128,9 @@ function Header() {
   const initializeUser = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
       if (user) {
         setUserId(user.id);
 
-        // Fetch user's low stock alert preference and profile picture
         const { data: profile } = await supabase
           .from("profiles")
           .select("low_stock_alert, profile_picture")
@@ -118,7 +142,6 @@ function Header() {
           setProfilePicture(profile.profile_picture);
         }
 
-        // Load existing notifications from localStorage
         const stored = JSON.parse(localStorage.getItem("notifications")) || [];
         setNotifications(stored);
       }
@@ -129,7 +152,6 @@ function Header() {
 
   const checkLowStockItems = async () => {
     try {
-      // Fetch all inventory items
       const { data: items, error } = await supabase
         .from("inventory")
         .select("*");
@@ -139,42 +161,34 @@ function Header() {
         return;
       }
 
-      // Find items with low stock (quantity <= reorder_point)
-      const lowStockItems = items.filter(
-        (item) => {
-          const quantity = parseFloat(item.quantity) || 0;
-          const reorderPoint = parseFloat(item.reorder_point) || 10;
-          return quantity <= reorderPoint;
-        }
-      );
+      const lowStockItems = items.filter((item) => {
+        const quantity = parseFloat(item.quantity) || 0;
+        const reorderPoint = parseFloat(item.reorder_point) || 10;
+        return quantity <= reorderPoint;
+      });
 
-      // Get existing notifications from localStorage
       const existingNotifs = JSON.parse(localStorage.getItem("notifications")) || [];
-      
-      // Create a map of existing low stock item IDs
+
       const existingLowStockIds = new Set(
         existingNotifs
           .filter(n => n.type === "low_stock")
           .map(n => n.itemId)
       );
 
-      // Find items that are no longer low stock and remove their notifications
       const currentLowStockIds = new Set(lowStockItems.map(item => item.id));
       const updatedNotifs = existingNotifs.filter(n => {
         if (n.type === "low_stock") {
           return currentLowStockIds.has(n.itemId);
         }
-        return true; // Keep non-low-stock notifications
+        return true;
       });
 
-      // Create notifications for NEW low stock items only
       const newNotifications = lowStockItems
         .filter(item => !existingLowStockIds.has(item.id))
         .map((item) => {
           const quantity = parseFloat(item.quantity) || 0;
           const reorderPoint = parseFloat(item.reorder_point) || 10;
           const difference = reorderPoint - quantity;
-          
           return {
             type: "low_stock",
             itemId: item.id,
@@ -195,10 +209,8 @@ function Header() {
     }
   };
 
-  // Dynamic page title based on route
   const getPageTitle = () => {
     const path = location.pathname;
-    
     if (path === "/" || path === "/dashboard") return "Dashboard";
     if (path === "/inventoryItems") return "Inventory Items";
     if (path === "/inventoryItems/new") return "Inventory";
@@ -207,7 +219,6 @@ function Header() {
     if (path === "/reports") return "Reports";
     if (path === "/users") return "Users";
     if (path === "/settings") return "System Settings";
-    
     return "Dashboard";
   };
 

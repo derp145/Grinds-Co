@@ -117,7 +117,7 @@
 .upload-btn {
   display: inline-block;
   padding: 10px 20px;
-  background: #724914;
+  background: #C8AE92;
   color: white;
   border-radius: 10px;
   cursor: pointer;
@@ -133,7 +133,7 @@
 .upload-hint {
   margin-top: 8px;
   font-size: 12px;
-  color: #8a776a;
+  color: #8d7c70;
 }
 
 /* TOGGLE ROWS */

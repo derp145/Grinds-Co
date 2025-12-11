@@ -10,22 +10,18 @@ const Settings = () => {
     lowStockAlert: true,
     profilePicture: "",
   });
-
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // Fetch current user data on mount
   useEffect(() => {
     fetchUserData();
   }, []);
 
   const fetchUserData = async () => {
     setLoading(true);
-    
-    // Get current authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
@@ -37,7 +33,6 @@ const Settings = () => {
 
     setUserId(user.id);
 
-    // Fetch profile data
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("*")
@@ -62,7 +57,6 @@ const Settings = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : value,
@@ -73,13 +67,11 @@ const Settings = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file");
       return;
     }
 
-    // Validate file size (max 2MB)
     if (file.size > 2 * 1024 * 1024) {
       setError("Image must be less than 2MB");
       return;
@@ -89,12 +81,10 @@ const Settings = () => {
     setError("");
 
     try {
-      // Create a unique file name
       const fileExt = file.name.split(".").pop();
       const fileName = `${userId}-${Date.now()}.${fileExt}`;
       const filePath = `profile-pictures/${fileName}`;
 
-      // Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, file);
@@ -103,22 +93,18 @@ const Settings = () => {
         throw uploadError;
       }
 
-      // Get public URL
       const { data: urlData } = supabase.storage
         .from("avatars")
         .getPublicUrl(filePath);
 
       const publicUrl = urlData.publicUrl;
 
-      // Update form state
       setForm({ ...form, profilePicture: publicUrl });
 
-      // Delete old profile picture if exists
       if (form.profilePicture) {
         const oldPath = form.profilePicture.split("/").slice(-2).join("/");
         await supabase.storage.from("avatars").remove([oldPath]);
       }
-
     } catch (err) {
       console.error("Upload error:", err);
       setError("Failed to upload profile picture: " + err.message);
@@ -137,7 +123,14 @@ const Settings = () => {
     }
 
     try {
-      // 1. Update profile in profiles table
+      // If low stock alert is being disabled, clear notifications immediately
+      if (!form.lowStockAlert) {
+        const existingNotifs = JSON.parse(localStorage.getItem("notifications")) || [];
+        const nonLowStockNotifs = existingNotifs.filter(n => n.type !== "low_stock");
+        localStorage.setItem("notifications", JSON.stringify(nonLowStockNotifs));
+      }
+
+      // Update profile in profiles table
       const { error: profileError } = await supabase
         .from("profiles")
         .update({
@@ -154,7 +147,15 @@ const Settings = () => {
         return;
       }
 
-      // 2. Update password if provided
+      // Dispatch custom event to notify Header component immediately
+      window.dispatchEvent(new CustomEvent('profileUpdated', {
+        detail: {
+          low_stock_alert: form.lowStockAlert,
+          profile_picture: form.profilePicture
+        }
+      }));
+
+      // Update password if provided
       if (form.password && form.password.trim() !== "") {
         const { error: passwordError } = await supabase.auth.updateUser({
           password: form.password,
@@ -167,11 +168,12 @@ const Settings = () => {
         }
       }
 
-      // Success!
       setSaved(true);
-      setForm({ ...form, password: "" }); // Clear password field
-      setTimeout(() => setSaved(false), 3000);
+      setForm({ ...form, password: "" });
 
+      setTimeout(() => {
+        setSaved(false);
+      }, 3000);
     } catch (err) {
       console.error("Save error:", err);
       setError("An error occurred while saving");
@@ -286,6 +288,11 @@ const Settings = () => {
             onChange={handleChange}
           />
         </div>
+        <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+          {form.lowStockAlert 
+            ? "You will receive notifications when inventory items are low in stock." 
+            : "Low stock notifications are disabled. You will not be alerted when items run low."}
+        </p>
       </div>
 
       {/* SYSTEM INFO CARD */}

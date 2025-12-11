@@ -19,19 +19,114 @@ function Sidebar({ currentPage }) {
   const [userData, setUserData] = useState({
     name: "User",
     role: "Staff",
+    profilePicture: null,
   });
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Load user data from localStorage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserData({
-        name: user.name || "User",
-        role: user.role || "Staff",
-      });
-    }
+    initializeUser();
   }, []);
+
+  // Listen for profile updates from Settings
+  useEffect(() => {
+    const handleProfileUpdate = (event) => {
+      console.log('Sidebar: Profile update event received:', event.detail);
+      
+      if (event.detail.profile_picture !== undefined) {
+        setUserData(prev => ({
+          ...prev,
+          profilePicture: event.detail.profile_picture
+        }));
+      }
+    };
+
+    window.addEventListener('profileUpdated', handleProfileUpdate);
+
+    return () => {
+      window.removeEventListener('profileUpdated', handleProfileUpdate);
+    };
+  }, []);
+
+  // Listen for real-time profile picture changes from Supabase
+  useEffect(() => {
+    if (!userId) return;
+
+    const subscription = supabase
+      .channel('sidebar-profile-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'profiles',
+          filter: `id=eq.${userId}`
+        },
+        (payload) => {
+          console.log('Sidebar: Profile updated via Supabase:', payload);
+          if (payload.new.profile_picture !== undefined) {
+            setUserData(prev => ({
+              ...prev,
+              profilePicture: payload.new.profile_picture
+            }));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [userId]);
+
+  const initializeUser = async () => {
+    try {
+      // Get current authenticated user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        setUserId(user.id);
+
+        // Fetch user's profile data including profile picture
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name, role, profile_picture")
+          .eq("id", user.id)
+          .single();
+
+        if (profile) {
+          setUserData({
+            name: profile.full_name || "User",
+            role: profile.role || "Staff",
+            profilePicture: profile.profile_picture || null,
+          });
+        }
+
+        // Also load from localStorage as fallback
+        const storedUser = localStorage.getItem("user");
+        if (storedUser && !profile) {
+          const user = JSON.parse(storedUser);
+          setUserData({
+            name: user.name || "User",
+            role: user.role || "Staff",
+            profilePicture: user.profilePicture || null,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error initializing sidebar user:", error);
+      
+      // Fallback to localStorage
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserData({
+          name: user.name || "User",
+          role: user.role || "Staff",
+          profilePicture: user.profilePicture || null,
+        });
+      }
+    }
+  };
 
   const handleSignOut = async () => {
     // Sign out from Supabase
@@ -65,7 +160,13 @@ function Sidebar({ currentPage }) {
       </div>
 
       <div className="sidebar-profile">
-        <FaUserCircle className="profile-avatar-icon" />
+        <div className="sidebar-profile-avatar">
+          {userData.profilePicture ? (
+            <img src={userData.profilePicture} alt="Profile" className="sidebar-profile-pic" />
+          ) : (
+            <FaUserCircle className="profile-avatar-icon" />
+          )}
+        </div>
         <div className="profile-info">
           <h3>{userData.name}</h3>
           <p>{userData.role}</p>

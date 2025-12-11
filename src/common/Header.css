@@ -57,19 +57,33 @@
   background: #D8C9B8;
 }
 
+/* Add this to your Header.css file */
+
+/* Add/Update this in your Header.css file */
+
 .header-user {
-  background: #C8AE92;
-  width: 42px;
-  height: 42px;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  border: 2px solid #b67953; /* Added border */
+}
+
+.header-user svg {
+  width: 100%;
+  height: 100%;
+  color: #666;
+}
+
+.header-user .profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .header-user:hover {
